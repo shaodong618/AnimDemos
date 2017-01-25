@@ -17,6 +17,8 @@
         </activity>
         <activity android:name=".IOSTaoBaoActivity">
         </activity>
+        <activity android:name=".swipecard.SwipeCardViewActivity">
+        </activity>
     </application>
 
 </manifest>
