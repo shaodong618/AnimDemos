@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context="org.lsd.animdemos.TestFlowLayoutActivity">
+
+    <org.lsd.animdemos.widget.FlowLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:text="勒布朗·詹姆斯"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="科比·布莱恩特"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:text="迈克尔·乔丹"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_margin="10dp"
+            android:text="拉塞尔·威斯布鲁克"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:text="詹姆斯·哈登"/>
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:text="卡哇伊·莱昂纳德"/>
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:text="勒布朗·詹姆斯"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="科比·布莱恩特"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:text="迈克尔·乔丹"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_margin="10dp"
+            android:text="拉塞尔·威斯布鲁克"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:text="詹姆斯·哈登"/>
+    </org.lsd.animdemos.widget.FlowLayout>
+
+</RelativeLayout>
+
+
