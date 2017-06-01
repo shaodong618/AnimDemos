@@ -30,6 +30,18 @@ public class FlowLayout extends ViewGroup
     }
 
     @Override
+    protected LayoutParams generateLayoutParams(LayoutParams p)
+    {
+        return new MarginLayoutParams(p);
+    }
+
+    @Override
+    protected LayoutParams generateDefaultLayoutParams()
+    {
+        return new MarginLayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+    }
+
+    @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs)
     {
         return new MarginLayoutParams(getContext(), attrs);
@@ -48,51 +60,52 @@ public class FlowLayout extends ViewGroup
         int currWidth = 0;
         int currHeight = 0;
 
+        int childWidth;
+        int childHeight;
+        int childCount = getChildCount();
+        mViewsLineList.clear();
+        mLineHeights.clear();
+        List<View> currLineList = new ArrayList<>();
+        for (int i = 0; i < childCount; i++) {
+            View childView = getChildAt(i);
+            measureChild(childView, widthMeasureSpec, heightMeasureSpec);
+            MarginLayoutParams lp = (MarginLayoutParams) childView.getLayoutParams();
+            childWidth = lp.leftMargin + lp.rightMargin + childView.getMeasuredWidth();
+            childHeight = lp.topMargin + lp.bottomMargin + childView.getMeasuredHeight();
+
+            if (currWidth + childWidth > widthSize) {
+                // 换行
+                // 记录该行的高度和该行的views
+                mLineHeights.add(currHeight);
+                mViewsLineList.add(currLineList);
+                // 累计到总测高度宽度中
+                measureWidth = Math.max(currWidth, measureWidth);
+                measureHeight += currHeight;
+                // 换行后记录新行第一个元素的宽高度
+                currWidth = childWidth;
+                currHeight = childHeight;
+                // 重新创建一个列表记录行内view
+                currLineList = new ArrayList<>();
+                currLineList.add(childView);
+            } else {
+                // 当前行的宽度累加，高度取最大值
+                currWidth += childWidth;
+                currHeight = Math.max(currHeight, childHeight);
+                // 记录当前行内的view
+                currLineList.add(childView);
+            }
+        }
+        // 最后一行的宽高度也要累计到总的宽高度中
+        measureWidth = Math.max(currWidth, measureWidth);
+        measureHeight += currHeight;
+        // 记录最后一行的高度和最后一行的views
+        mLineHeights.add(currHeight);
+        mViewsLineList.add(currLineList);
+
+        // 如果模式是EXACTLY时直接就是给定的值
         if (widthMode == MeasureSpec.EXACTLY && heightMode == MeasureSpec.EXACTLY) {
             measureWidth = widthSize;
             measureHeight = heightSize;
-        } else {
-            int childWidth;
-            int childHeight;
-            int childCount = getChildCount();
-            mViewsLineList.clear();
-            mLineHeights.clear();
-            List<View> currLineList = new ArrayList<>();
-            for (int i = 0; i < childCount; i++) {
-                View childView = getChildAt(i);
-                measureChild(childView, widthMeasureSpec, heightMeasureSpec);
-                MarginLayoutParams lp = (MarginLayoutParams) childView.getLayoutParams();
-                childWidth = lp.leftMargin + lp.rightMargin + childView.getMeasuredWidth();
-                childHeight = lp.topMargin + lp.bottomMargin + childView.getMeasuredHeight();
-
-                if (currWidth + childWidth > widthSize) {
-                    // 换行
-                    // 记录该行的高度和该行的views
-                    mLineHeights.add(currHeight);
-                    mViewsLineList.add(currLineList);
-                    // 累计到总测高度宽度中
-                    measureWidth = Math.max(currWidth, measureWidth);
-                    measureHeight += currHeight;
-                    // 换行后记录新行第一个元素的宽高度
-                    currWidth = childWidth;
-                    currHeight = childHeight;
-                    // 重新创建一个列表记录行内view
-                    currLineList = new ArrayList<>();
-                    currLineList.add(childView);
-                } else {
-                    // 当前行的宽度累加，高度取最大值
-                    currWidth += childWidth;
-                    currHeight = Math.max(currHeight, childHeight);
-                    // 记录当前行内的view
-                    currLineList.add(childView);
-                }
-            }
-            // 最后一行的宽高度也要累计到总的宽高度中
-            measureWidth = Math.max(currWidth, measureWidth);
-            measureHeight += currHeight;
-            // 记录最后一行的高度和最后一行的views
-            mLineHeights.add(currHeight);
-            mViewsLineList.add(currLineList);
         }
 
         setMeasuredDimension(measureWidth, measureHeight);
