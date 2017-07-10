@@ -27,6 +27,8 @@
         </activity>
         <activity android:name=".ListViewInsideScrollViewActivity">
         </activity>
+        <activity android:name=".WeixinBankActivity">
+        </activity>
     </application>
 
 </manifest>

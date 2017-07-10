@@ -31,4 +31,10 @@
         android:layout_height="wrap_content"
         android:text="ScrollView嵌套ListView"/>
 
+    <Button
+        android:id="@+id/btn_weixin_bank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="仿微信银行卡页面"/>
+
 </org.lsd.animdemos.widget.FlowLayout>
