@@ -16,7 +16,7 @@ public class FlowLayout extends ViewGroup
 {
     // 用于记录每行view
     private List<List<View>> mViewsLineList = new ArrayList<>();
-    // 用于记录每行德高度
+    // 用于记录每行的高度
     private List<Integer> mLineHeights = new ArrayList<>();
 
     public FlowLayout(Context context)
@@ -55,6 +55,11 @@ public class FlowLayout extends ViewGroup
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
+        int paddingLeft = getPaddingLeft();
+        int paddingRight = getPaddingRight();
+        int paddingTop = getPaddingTop();
+        int paddingBottom = getPaddingBottom();
+
         int measureWidth = 0;
         int measureHeight = 0;
         int currWidth = 0;
@@ -73,7 +78,7 @@ public class FlowLayout extends ViewGroup
             childWidth = lp.leftMargin + lp.rightMargin + childView.getMeasuredWidth();
             childHeight = lp.topMargin + lp.bottomMargin + childView.getMeasuredHeight();
 
-            if (currWidth + childWidth > widthSize) {
+            if (currWidth + childWidth > (widthSize - paddingLeft - paddingRight)) {
                 // 换行
                 // 记录该行的高度和该行的views
                 mLineHeights.add(currHeight);
@@ -101,28 +106,37 @@ public class FlowLayout extends ViewGroup
         // 记录最后一行的高度和最后一行的views
         mLineHeights.add(currHeight);
         mViewsLineList.add(currLineList);
+        // 把padding也计算到总宽高中
+        measureWidth = measureWidth + paddingLeft + paddingRight;
+        measureHeight = measureHeight + paddingTop + paddingBottom;
 
-        // 如果模式是EXACTLY时直接就是给定的值
-        if (widthMode == MeasureSpec.EXACTLY && heightMode == MeasureSpec.EXACTLY) {
-            measureWidth = widthSize;
-            measureHeight = heightSize;
-        }
-
-        setMeasuredDimension(measureWidth, measureHeight);
+        setMeasuredDimension(widthMode == MeasureSpec.EXACTLY ? widthSize : measureWidth,
+                heightMode == MeasureSpec.EXACTLY ? heightSize : measureHeight);
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b)
     {
+        int paddingLeft = getPaddingLeft();
+        int paddingTop = getPaddingTop();
+
         // 记录当前这个view的左上点
         int currTop = 0;
         int currLeft = 0;
         int lineCount = mViewsLineList.size();
         for (int i = 0; i < lineCount; i++) {
+            if (i == 0) {
+                // 第一行的内容
+                currTop = paddingTop;
+            }
             // 取出当前行的总views
             List<View> views = mViewsLineList.get(i);
             int viewsCount = views.size();
             for (int j = 0; j < viewsCount; j++) {
+                if (j == 0) {
+                    // 每一行的第一内容
+                    currLeft = paddingLeft;
+                }
                 View childView = views.get(j);
                 MarginLayoutParams lp = (MarginLayoutParams) childView.getLayoutParams();
                 l = currLeft + lp.leftMargin;

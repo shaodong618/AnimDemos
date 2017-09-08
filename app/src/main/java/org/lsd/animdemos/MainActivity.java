@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import org.lsd.animdemos.swipecard.SwipeCardViewActivity;
 
@@ -58,6 +59,15 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 startActivity(new Intent(MainActivity.this, WeixinBankActivity.class));
+            }
+        });
+
+        findViewById(R.id.btn_immerse).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Toast.makeText(MainActivity.this, "未完成", Toast.LENGTH_SHORT).show();
             }
         });
     }
